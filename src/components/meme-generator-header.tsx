@@ -16,7 +16,7 @@ export function MemeGeneratorHeader() {
             <span className="font-bold text-lg">MemeGen</span>
           </Link>
           <form
-            action={async (formData) => {
+            action={async (formData : FormData) => {
               "use server";
               const search = formData.get("search");
               if (search) {
