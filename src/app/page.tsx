@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button"
 import { IKImage, IKUpload, ImageKitProvider } from "imagekitio-next";
 import {
   IKUploadResponse,
@@ -53,7 +54,8 @@ export default function Home() {
   const paths: string = `${filePath}`;
   // HTML for displaying the UI
   return (
-    <div className="flex items-center justify-center gap-4">
+    <div className="">
+      <Button variant={'destructive'}>Click Me</Button>
       {/* ImageKitProvider is basically a wrapper as like context api  */}
       <ImageKitProvider
         urlEndpoint={urlEndpoint}
