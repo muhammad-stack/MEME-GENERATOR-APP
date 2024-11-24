@@ -45,7 +45,7 @@ export function MemeGeneratorHeader() {
             Create
           </Link>
           <Link
-            href="/memes"
+            href="/meme"
             className="transition-colors hover:text-foreground/80 text-foreground/60"
           >
             Memes

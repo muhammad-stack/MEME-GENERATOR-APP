@@ -1,12 +1,18 @@
+
 import ImageKit from "imagekit";
-import { FileObject } from "imagekit/dist/libs/interfaces";
+import { IKImage } from "imagekitio-next";
 import { unstable_noStore } from "next/cache";
+import { MemeList } from "./MemeList";
+import { urlEndPoint } from "../providers";
 
 var imagekit: ImageKit = new ImageKit({
   publicKey: `${process.env.NEXT_PUBLIC_PUBLIC_KEY}`,
   privateKey: `${process.env.PRIVATE_KEY}`,
-  urlEndpoint: `${process.env.NEXT_PUBLIC_URL_ENDPOINT}`,
+  urlEndpoint: `${urlEndPoint}`,
 });
+
+// Type definition for the search params
+type SearchParams = { q: string };
 
 const SearchPage = async ({
   searchParams,
@@ -14,33 +20,14 @@ const SearchPage = async ({
   searchParams: { q: string };
 }) => {
   unstable_noStore();
-  try {
-    // Sanitize the search input
-    const sanitizedQuery: string = encodeURIComponent(searchParams.q);
-
-    const files = await imagekit.listFiles({
-      searchQuery: `name:${sanitizedQuery}`,
-    });
-
-    console.log("Files Returned", files);
-    if (!files || files.length === 0) {
-      console.log("No file found");
-    }
-
-    return (
-      <div>
-        {files.map((file: FileObject) => {
-          // {
-          //   console.log(file);
-          // }
-          return <div key={file.fileId}>{file.name}</div>;
-        })}
-      </div>
-    );
-  } catch (error) {
-    console.error("Error fetching files:", error);
-    return <div>Error loading files</div>;
-  }
+  const files = await imagekit.listFiles({
+    searchQuery: `name:${searchParams.q}`,
+  });
+  return (
+    <div>
+      <MemeList files={files} />
+    </div>
+  );
 };
 
 export default SearchPage;

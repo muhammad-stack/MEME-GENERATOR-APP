@@ -1,6 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button"
-import { IKImage, IKUpload, ImageKitProvider } from "imagekitio-next";
+import { Button } from "@/components/ui/button";
+import { IKImage, IKUpload } from "imagekitio-next";
 import {
   IKUploadResponse,
   UploadError,
@@ -8,11 +8,9 @@ import {
 
 import { useState } from "react";
 
-const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
-const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
 
 // Authenticator function to get the authentication parameters
-const authenticator = async () => {
+export const authenticator = async () => {
   try {
     // Fetching the authentication parameters from the server
     const response = await fetch("http://localhost:3000/api/auth");
@@ -55,40 +53,35 @@ export default function Home() {
   // HTML for displaying the UI
   return (
     <div className="">
-      <Button variant={'destructive'}>Click Me</Button>
+      <Button variant={"destructive"}>Click Me</Button>
       {/* ImageKitProvider is basically a wrapper as like context api  */}
-      <ImageKitProvider
-        urlEndpoint={urlEndpoint}
-        publicKey={publicKey}
-        authenticator={authenticator}
-      >
-        {/* Images Display Section on Conditional Basis if the state 
+
+      {/* Images Display Section on Conditional Basis if the state 
         has some value only then it is displayed otherwise not */}
 
-        {filePath && (
-          <IKImage
-            path={paths}
-            width={500}
-            height={500}
-            transformation={[
-              {
-                raw: "l-text,i-Hello World,fs-25,l-end",
-              },
-            ]}
-            alt="Meme Loading.."
-          />
-        )}
+      {filePath && (
+        <IKImage
+          path={paths}
+          width={500}
+          height={500}
+          transformation={[
+            {
+              raw: "l-text,i-Hello World,fs-25,l-end",
+            },
+          ]}
+          alt="Meme Loading.."
+        />
+      )}
 
-        {/* Images Upload Section */}
-        <div>
-          <h2>File Upload</h2>
-          <IKUpload
-            fileName="test-upload.png"
-            onError={onError}
-            onSuccess={onSuccess}
-          />
-        </div>
-      </ImageKitProvider>
+      {/* Images Upload Section */}
+      <div>
+        <h2>File Upload</h2>
+        <IKUpload
+          fileName="test-upload.png"
+          onError={onError}
+          onSuccess={onSuccess}
+        />
+      </div>
     </div>
   );
 }
